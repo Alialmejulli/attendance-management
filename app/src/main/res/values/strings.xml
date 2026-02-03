@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AWS</string>
+    <string name="abdo">abdo</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="course_code">COURSE CODE</string>
+
+</resources>

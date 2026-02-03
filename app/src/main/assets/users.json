@@ -1,0 +1,195 @@
+[
+  {
+    "id": "s10234",
+    "first_name": "Ali",
+    "last_name": "Saleh",
+    "email": "s10234@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 4.1,
+    "major": "CS",
+    "year": 3
+  },
+  {
+    "id": "s10452",
+    "first_name": "Sara",
+    "last_name": "Alharbi",
+    "email": "s10452@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 3.2,
+    "major": "IT",
+    "year": 2
+  },
+  {
+    "id": "s10891",
+    "first_name": "Faisal",
+    "last_name": "Alzahrani",
+    "email": "s10891@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 4.7,
+    "major": "IS",
+    "year": 4
+  },
+  {
+    "id": "s11023",
+    "first_name": "Maha",
+    "last_name": "Almutairi",
+    "email": "s11023@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 3.9,
+    "major": "CS",
+    "year": 1
+  },
+  {
+    "id": "s11287",
+    "first_name": "Omar",
+    "last_name": "Basalamah",
+    "email": "s11287@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 2.8,
+    "major": "IT",
+    "year": 3
+  },
+  {
+    "id": "s11543",
+    "first_name": "Noura",
+    "last_name": "Alghamdi",
+    "email": "s11543@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 4.5,
+    "major": "IS",
+    "year": 4
+  },
+  {
+    "id": "s11890",
+    "first_name": "Yousef",
+    "last_name": "Alotaibi",
+    "email": "s11890@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 3.0,
+    "major": "CS",
+    "year": 2
+  },
+  {
+    "id": "s12034",
+    "first_name": "Reem",
+    "last_name": "Aljohani",
+    "email": "s12034@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 4.9,
+    "major": "IT",
+    "year": 1
+  },
+  {
+    "id": "s12211",
+    "first_name": "Hassan",
+    "last_name": "Sharif",
+    "email": "s12211@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 2.4,
+    "major": "IS",
+    "year": 2
+  },
+  {
+    "id": "s12478",
+    "first_name": "Aisha",
+    "last_name": "Alsubaie",
+    "email": "s12478@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 3.7,
+    "major": "CS",
+    "year": 3
+  },
+  {
+    "id": "s12654",
+    "first_name": "Khalid",
+    "last_name": "Alenzi",
+    "email": "s12654@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 4.3,
+    "major": "IT",
+    "year": 4
+  },
+  {
+    "id": "s12890",
+    "first_name": "Lama",
+    "last_name": "Alqahtani",
+    "email": "s12890@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 3.4,
+    "major": "IS",
+    "year": 1
+  },
+  {
+    "id": "s13021",
+    "first_name": "Abdullah",
+    "last_name": "Alamri",
+    "email": "s13021@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 2.9,
+    "major": "CS",
+    "year": 2
+  },
+  {
+    "id": "s13245",
+    "first_name": "Huda",
+    "last_name": "Alshammari",
+    "email": "s13245@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 4.0,
+    "major": "IT",
+    "year": 3
+  },
+  {
+    "id": "s13456",
+    "first_name": "Majed",
+    "last_name": "Alharithy",
+    "email": "s13456@kau.edu.sa",
+    "password": "12345",
+    "role": "student",
+    "gpa": 3.6,
+    "major": "IS",
+    "year": 4
+  },
+
+  {
+    "id": "i20001",
+    "first_name": "Dr. Ahmed",
+    "last_name": "Hassan",
+    "email": "ahmed.hassan@kau.edu.sa",
+    "password": "admin123",
+    "role": "instructor",
+    "department": "CS"
+  },
+  {
+    "id": "i20002",
+    "first_name": "Dr. Fatimah",
+    "last_name": "Almalki",
+    "email": "fatimah.almalki@kau.edu.sa",
+    "password": "admin123",
+    "role": "instructor",
+    "department": "IT"
+  },
+  {
+    "id": "i20003",
+    "first_name": "Dr. Sami",
+    "last_name": "Bahattab",
+    "email": "sami.bahattab@kau.edu.sa",
+    "password": "admin123",
+    "role": "instructor",
+    "department": "IS"
+  }
+]
