@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">AWS</string>
+    <string name="abdo">عبدو</string>
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="course_code">رمز المقرر</string>
+    <string name="log_in">دخول</string>
+    <string name="welcome">مرحبًا</string>
+    <string name="name">الاسم:</string>
+    <string name="id">الرقم الجامعي:</string>
+    <string name="gpa">المعدل:</string>
+    <string name="department">القسم:</string>
+    <string name="courses">المقررات</string>
+    <string name="settings">الإعدادات</string>
+    <string name="notifications">الإشعارات</string>
+    <string name="language">اللغة</string>
+    <string name="about_app">عن التطبيق</string>
+    <string name="log_out">تسجيل الخروج</string>
+    <string name="label_name">الاسم</string>
+    <string name="label_id">الرقم الجامعي</string>
+    <string name="label_gpa">المعدل</string>
+    <string name="label_department">القسم</string>
+
+</resources>

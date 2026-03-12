@@ -4,12 +4,23 @@
     android:layout_height="match_parent"
     android:background="#2E4F3D">
 
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="Back"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
     <!-- Page Title -->
     <TextView
         android:id="@+id/settings_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings"
+        android:text="@string/settings"
         android:textColor="@android:color/white"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -17,6 +28,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="40dp"/>
+
+
+
 
     <!-- Settings Container -->
     <LinearLayout
@@ -29,6 +43,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="24dp">
+
+
 
         <!-- Notifications -->
         <LinearLayout
@@ -47,13 +63,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Notifications"
+                android:text="@string/notifications"
                 android:textSize="18sp"
                 android:textColor="#2E4F3D"
                 android:layout_marginEnd="12dp"/>
 
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/notifications_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,7 +96,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Language"
+                android:text="@string/language"
                 android:textSize="18sp"
                 android:textColor="#2E4F3D"
                 android:layout_marginEnd="12dp"/>
@@ -95,10 +111,14 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:background="@drawable/language_unselected"
+                app:backgroundTint="@null"
+                android:foreground="@null"
                 android:textColor="#2E4F3D"
                 android:layout_marginEnd="8dp"/>
 
+
             <!-- Arabic Button -->
+
             <Button
                 android:id="@+id/btn_arabic"
                 android:layout_width="wrap_content"
@@ -108,7 +128,11 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:background="@drawable/language_unselected"
-                android:textColor="#2E4F3D"/>
+                app:backgroundTint="@null"
+                android:foreground="@null"
+                android:textColor="#2E4F3D"
+                android:layout_marginEnd="8dp"/>
+
         </LinearLayout>
 
 
@@ -127,7 +151,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="About App"
+                android:text="@string/about_app"
                 android:textSize="18sp"
                 android:textColor="#2E4F3D"/>
         </LinearLayout>
@@ -146,7 +170,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Log Out"
+                android:text="@string/log_out"
                 android:textSize="18sp"
                 android:textColor="#C62828"
                 android:textStyle="bold"/>

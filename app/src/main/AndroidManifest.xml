@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.aws">
 
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
@@ -21,9 +24,16 @@
         </activity>
 
         <activity android:name=".MainActivity"/>
-
         <activity android:name=".StudentHomeActivity" />
         <activity android:name=".InstructorHomeActivity" />
+        <activity android:name=".SettingsActivity"/>
+        <activity android:name=".CoursesActivity"/>
+        <activity android:name=".CourseDetailActivity"/>
+        <activity android:name=".MarkAttendanceActivity" />
+        <activity android:name=".activities.InstructorClassesActivity" />
+
+
+
 
 
     </application>

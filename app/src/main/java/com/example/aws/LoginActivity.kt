@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,27 +31,68 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            Log.d("DEBUG", "Before login check")
-            val user = UserRepository.login(email, password, this)
-            Log.d("DEBUG", "After login check")
+            btnLogin.isEnabled = false
 
-            if (user == null) {
-                Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            RetrofitClient.instance.getUsers().enqueue(object : retrofit2.Callback<UsersResponse> {
 
-            Toast.makeText(this, "Welcome ${user.first_name}", Toast.LENGTH_SHORT).show()
+                override fun onResponse(
+                    call: retrofit2.Call<UsersResponse>,
+                    response: retrofit2.Response<UsersResponse>
+                ) {
+                    btnLogin.isEnabled = true
 
-            when (user.role.lowercase()) {
-                "student" -> startActivity(Intent(this, StudentHomeActivity::class.java))
-                "instructor" -> startActivity(Intent(this, InstructorHomeActivity::class.java))
-                else -> {
-                    Toast.makeText(this, "Unknown role: ${user.role}", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
+                    if (!response.isSuccessful) {
+                        Toast.makeText(this@LoginActivity, "Server error", Toast.LENGTH_SHORT).show()
+                        return
+                    }
+
+                    val users = response.body()?.items ?: emptyList()
+                    val user = users.find { it.email == email && it.password == password }
+
+                    if (user == null) {
+                        Toast.makeText(this@LoginActivity, "Invalid email or password", Toast.LENGTH_SHORT).show()
+                        return
+                    }
+
+                    Toast.makeText(this@LoginActivity, "Welcome ${user.first_name}", Toast.LENGTH_SHORT).show()
+
+                    when (user.role.lowercase()) {
+
+                        "student" -> {
+                            val intent = Intent(this@LoginActivity, StudentHomeActivity::class.java)
+
+                            // Send all student info
+                            intent.putExtra("student_id", user.id)
+                            intent.putExtra("first_name", user.first_name)
+                            intent.putExtra("last_name", user.last_name)
+                            intent.putExtra("gpa", user.gpa.toString())
+                            intent.putExtra("major", user.major)
+
+                            startActivity(intent)
+                        }
+
+                        "instructor" -> {
+                            val intent = Intent(this@LoginActivity, InstructorHomeActivity::class.java)
+
+                            intent.putExtra("instructor_id", user.id)
+                            intent.putExtra("first_name", user.first_name)
+                            intent.putExtra("last_name", user.last_name)
+                            intent.putExtra("department", user.department)
+
+                            startActivity(intent)
+                        }
+
+                    }
+
+                    finish()
                 }
-            }
 
-            finish()
+                override fun onFailure(call: retrofit2.Call<UsersResponse>, t: Throwable) {
+                    btnLogin.isEnabled = true
+                    Toast.makeText(this@LoginActivity, "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    Log.e("LOGIN", "Error", t)
+                }
+            })
         }
     }
 }

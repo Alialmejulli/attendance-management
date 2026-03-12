@@ -3,5 +3,22 @@
     <string name="abdo">abdo</string>
     <string name="sign_in">SIGN IN</string>
     <string name="course_code">COURSE CODE</string>
+    <string name="log_in">LOG IN</string>
+    <string name="welcome">Welcome</string>
+    <string name="name">Name:</string>
+    <string name="id">ID:</string>
+    <string name="gpa">GPA:</string>
+    <string name="department">Department:</string>
+    <string name="courses">COURSES</string>
+    <string name="settings">SETTINGS</string>
+    <string name="notifications">Notifications</string>
+    <string name="language">Language</string>
+    <string name="about_app">About App</string>
+    <string name="log_out">Log Out</string>
+    <string name="label_name">Name</string>
+    <string name="label_id">ID</string>
+    <string name="label_gpa">GPA</string>
+    <string name="label_department">Department</string>
+
 
 </resources>
