@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import android.util.Log
+import androidx.core.content.edit
 
 class LoginActivity : BaseActivity() {
 
@@ -61,12 +62,20 @@ class LoginActivity : BaseActivity() {
                         "student" -> {
                             val intent = Intent(this@LoginActivity, StudentHomeActivity::class.java)
 
+                            // Save student ID for later use
+                            val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+                            prefs.edit {
+                                putString("student_id", user.id)
+                            }
+
+
                             // Send all student info
                             intent.putExtra("student_id", user.id)
                             intent.putExtra("first_name", user.first_name)
                             intent.putExtra("last_name", user.last_name)
                             intent.putExtra("gpa", user.gpa.toString())
                             intent.putExtra("major", user.major)
+
 
                             startActivity(intent)
                         }

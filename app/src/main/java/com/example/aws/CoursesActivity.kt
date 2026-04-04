@@ -43,7 +43,7 @@ class CoursesActivity : BaseActivity() {
 
 
                 recycler.adapter = StudentCoursesAdapter(courses) { selectedCourse ->
-                    val intent = Intent (this@CoursesActivity, CourseDetailActivity::class.java)
+                    val intent = Intent (this@CoursesActivity, StudentCourseDetailActivity::class.java)
                     intent.putExtra("section_id", selectedCourse.section_id)
                     intent.putExtra("course_code", selectedCourse.course_code)
                     intent.putExtra("course_name", selectedCourse.course_name)

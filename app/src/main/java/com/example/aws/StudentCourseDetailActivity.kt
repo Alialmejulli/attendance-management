@@ -10,7 +10,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CourseDetailActivity : BaseActivity() {
+class StudentCourseDetailActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,23 +18,31 @@ class CourseDetailActivity : BaseActivity() {
 
         val sectionId = intent.getStringExtra("section_id")!!
 
-
+        // Take Attendance button
         val markAttendanceBtn = findViewById<Button>(R.id.markAttendanceBtn)
+
         markAttendanceBtn.setOnClickListener {
-            val intent = Intent(this, MarkAttendanceActivity::class.java)
-            intent.putExtra("section_id", sectionId) // sectionId from your details screen
+            val intent = Intent(this, StudentAttendanceActivity::class.java)
+
+            intent.putExtra("section_id", sectionId)
             startActivity(intent)
         }
 
+        // Attendance History button
+        val historyBtn = findViewById<Button>(R.id.viewAttendanceBtn)
+
+        historyBtn.setOnClickListener {
+            val intent = Intent(this, StudentHistoryActivity::class.java)
+            intent.putExtra("section_id", sectionId)
+            startActivity(intent)
+        }
 
         val courseCode = intent.getStringExtra("course_code")
         val courseName = intent.getStringExtra("course_name")
         findViewById<TextView>(R.id.courseCode).text = "$courseCode - $courseName"
 
-        // Back button
         findViewById<View>(R.id.backButton).setOnClickListener { finish() }
 
-        // Load full details from backend
         loadCourseDetails(sectionId)
     }
 
@@ -53,9 +61,9 @@ class CourseDetailActivity : BaseActivity() {
                 }
 
                 override fun onFailure(call: Call<CourseDetailResponse>, t: Throwable) {
-                    Toast.makeText(this@CourseDetailActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@StudentCourseDetailActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
-
     }
 }
+

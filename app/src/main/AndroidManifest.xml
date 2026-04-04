@@ -28,9 +28,16 @@
         <activity android:name=".InstructorHomeActivity" />
         <activity android:name=".SettingsActivity"/>
         <activity android:name=".CoursesActivity"/>
-        <activity android:name=".CourseDetailActivity"/>
-        <activity android:name=".MarkAttendanceActivity" />
+        <activity android:name=".StudentCourseDetailActivity"/>
+        <activity android:name=".StudentAttendanceActivity" />
         <activity android:name=".activities.InstructorClassesActivity" />
+        <activity android:name=".MyClassesDetailActivity" />
+        <activity android:name=".InstructorAttendanceActivity" />
+        <activity android:name=".InstructorHistoryActivity" />
+        <activity android:name=".StudentHistoryActivity" />
+
+
+
 
 
 

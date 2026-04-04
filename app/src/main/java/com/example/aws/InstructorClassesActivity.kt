@@ -1,5 +1,6 @@
 package com.example.aws.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.aws.BaseActivity
 import com.example.aws.InstructorCoursesAdapter
 import com.example.aws.InstructorResponse
+import com.example.aws.MyClassesDetailActivity
 import com.example.aws.R
 import com.example.aws.RetrofitClient
 import retrofit2.Call
@@ -41,11 +43,18 @@ class InstructorClassesActivity : BaseActivity() {
                     val courses = response.body()?.items ?: emptyList()
 
                     recycler.adapter = InstructorCoursesAdapter(courses) { selectedCourse ->
-                        Toast.makeText(
+
+                        // Navigate to the next page
+                        val intent = Intent(
                             this@InstructorClassesActivity,
-                            "Clicked: ${selectedCourse.courseName}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            MyClassesDetailActivity::class.java
+                        )
+
+                        intent.putExtra("course_code", selectedCourse.courseCode)
+                        intent.putExtra("course_name", selectedCourse.courseName)
+                        intent.putExtra("section_id", selectedCourse.sectionId)
+
+                        startActivity(intent)
                     }
                 }
 
