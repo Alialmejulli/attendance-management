@@ -19,7 +19,7 @@
 
     <!-- Course Code -->
     <TextView
-        android:id="@+id/courseCode"
+        android:id="@+id/historyTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="History"
@@ -36,14 +36,14 @@
         android:id="@+id/scrollContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/courseCode"
+        app:layout_constraintTop_toBottomOf="@id/historyTitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp">
 
         <LinearLayout
-            android:id="@+id/attendanceList"
+            android:id="@+id/instructorHistoryList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

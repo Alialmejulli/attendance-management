@@ -50,7 +50,10 @@ class StudentHistoryActivity : BaseActivity() {
 
                     val raw = response.body()?.string() ?: return
                     val obj = JSONObject(raw)
-                    val items = obj.optJSONArray("items") ?: JSONArray()
+                    val bodyString = obj.getString("body")
+                    val bodyJson = JSONObject(bodyString)
+                    val items = bodyJson.getJSONArray("items")
+
 
 
                     val container = findViewById<LinearLayout>(R.id.attendanceList)
