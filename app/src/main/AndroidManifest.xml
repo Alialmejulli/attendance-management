@@ -3,6 +3,8 @@
 
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -10,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AWS"
         android:icon="@drawable/fcaitr">
+
+        <service
+            android:name=".AttendanceTimerService"
+            android:foregroundServiceType="shortService" />
+
 
 
         <activity
@@ -23,7 +30,7 @@
 
         </activity>
 
-        <activity android:name=".MainActivity"/>
+
         <activity android:name=".StudentHomeActivity" />
         <activity android:name=".InstructorHomeActivity" />
         <activity android:name=".SettingsActivity"/>

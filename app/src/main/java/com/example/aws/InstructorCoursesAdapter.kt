@@ -11,8 +11,11 @@ class InstructorCoursesAdapter(
     private val onCourseClick: (CourseItem) -> Unit
 ) : RecyclerView.Adapter<InstructorCoursesAdapter.CourseViewHolder>() {
 
+    private var selectedPosition = RecyclerView.NO_ID.toInt()
+
     class CourseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val courseText: TextView = itemView.findViewById(R.id.courseNameText)
+        val courseNameText: TextView = itemView.findViewById(R.id.courseNameText)
+        val courseCodeText: TextView = itemView.findViewById(R.id.courseCodeText)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
@@ -23,14 +26,24 @@ class InstructorCoursesAdapter(
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
         val course = courses[position]
+        holder.courseNameText.text = course.courseName
+        holder.courseCodeText.text = course.courseCode
 
-        holder.courseText.text = "${course.courseName} - ${course.courseCode}"
+        // Highlight selected row
+        holder.itemView.alpha = if (selectedPosition == position) 1f else 0.85f
+        holder.itemView.setBackgroundResource(
+            if (selectedPosition == position) R.drawable.course_row_selected
+            else R.drawable.course_row_bg
+        )
 
         holder.itemView.setOnClickListener {
+            val previous = selectedPosition
+            selectedPosition = holder.adapterPosition
+            notifyItemChanged(previous)
+            notifyItemChanged(selectedPosition)
             onCourseClick(course)
         }
     }
 
-    override fun getItemCount(): Int = courses.size
+    override fun getItemCount() = courses.size
 }
-

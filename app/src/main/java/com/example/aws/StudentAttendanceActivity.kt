@@ -1,11 +1,12 @@
 package com.example.aws
 
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
+import android.util.Log
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.button.MaterialButton
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
@@ -23,135 +24,174 @@ class StudentAttendanceActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mark_attendance_page)
 
-        val courseCode = intent.getStringExtra("course_code")
-        findViewById<TextView>(R.id.courseCode).text = courseCode
+        val courseCode = intent.getStringExtra("course_code") ?: ""
+        val courseName = intent.getStringExtra("course_name") ?: ""
+        val sectionId  = intent.getStringExtra("section_id")  ?: ""
 
-        val sectionId = intent.getStringExtra("section_id")
+        // Header subtitle
+        findViewById<TextView>(R.id.courseCode).text =
+            if (courseCode.isNotEmpty()) "$courseCode — $courseName" else ""
+
+        findViewById<ImageView>(R.id.backButton).setOnClickListener { finish() }
 
         val codeInput = findViewById<EditText>(R.id.codeInput)
-        val submitBtn = findViewById<Button>(R.id.submitBtn)
+        val submitBtn = findViewById<MaterialButton>(R.id.submitBtn)
 
-        findViewById<View>(R.id.backButton).setOnClickListener { finish() }
+        val autoCode = intent.getStringExtra("auto_code") ?: ""
+        if (autoCode.isNotEmpty()) {
+            codeInput.setText(autoCode)
+        }
 
         submitBtn.setOnClickListener {
-            val code = codeInput.text.toString().trim()
+            val code = codeInput.text.toString().trim().replace("\u0000", "")
 
             if (code.isEmpty()) {
                 Toast.makeText(this, "Please enter the code", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            verifyCode(sectionId, code)
+            val studentId = getLoggedInStudentId()
+            if (studentId.isEmpty()) {
+                Toast.makeText(this, "Error: No student ID found", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (sectionId.isEmpty()) {
+                Toast.makeText(this, "Error: Missing section ID", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            submitBtn.isEnabled = false
+            submitBtn.text      = "Submitting…"
+
+            attend(studentId, sectionId, code, courseCode, courseName, submitBtn)
         }
     }
 
-    private fun verifyCode(sectionId: String?, code: String) {
-
-        val studentId = getLoggedInStudentId()
-
-        if (studentId.isEmpty()) {
-            Toast.makeText(this, "Error: No student ID found", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-
-        RetrofitClient.instance.validateCode(
-            sectionId = sectionId!!,
-            code = code,
-            studentId = studentId
+    private fun attend(
+        studentId: String,
+        sectionId: String,
+        code: String,
+        courseCode: String,
+        courseName: String,
+        submitBtn: MaterialButton
+    ) {
+        RetrofitClient.instance.attend(
+            studentId = studentId,
+            sectionId = sectionId,
+            code      = code
         ).enqueue(object : Callback<ResponseBody> {
 
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if (response.isSuccessful) {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                submitBtn.isEnabled = true
+                submitBtn.text      = "Submit Attendance"
 
-                    val raw = response.body()?.string()
-                    val obj = JSONObject(raw)
-
-                    // Extract ORDS "body" JSON
-                    val bodyString = obj.getString("body")
-                    val bodyJson = JSONObject(bodyString)
-
-                    val status = bodyJson.getString("status")
-
-                    if (status == "valid") {
-                        markAttendance(studentId, sectionId, code)
-                    } else {
-                        Toast.makeText(
-                            this@StudentAttendanceActivity,
-                            "Invalid or expired code",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                } else {
+                val raw = response.body()?.string() ?: run {
                     Toast.makeText(
                         this@StudentAttendanceActivity,
                         "Server error",
                         Toast.LENGTH_SHORT
                     ).show()
+                    return
                 }
-            }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Toast.makeText(
-                    this@StudentAttendanceActivity,
-                    "Network error",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
-    }
+                Log.d("ATTEND", "raw = $raw")
 
-    private fun markAttendance(studentId: String, sectionId: String, code: String) {
+                try {
+                    val outer      = JSONObject(raw)
+                    val bodyString = outer.optString("body", null) ?: raw
+                    val body       = JSONObject(bodyString)
+                    val status     = body.optString("status", "")
 
-        RetrofitClient.instance.markAttendance(
-            studentId = studentId,
-            sectionId = sectionId,
-            code = code
-        ).enqueue(object : Callback<ResponseBody> {
+                    when (status) {
+                        "P", "present" -> {
+                            Toast.makeText(
+                                this@StudentAttendanceActivity,
+                                "✓ Marked Present",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if (response.isSuccessful) {
+                            // Fire confirmation notification
+                            fireConfirmationNotification(courseCode, courseName, "P")
+                        }
 
-                    val raw = response.body()?.string()
-                    val obj = JSONObject(raw)
+                        "L", "late" -> {
+                            Toast.makeText(
+                                this@StudentAttendanceActivity,
+                                "✓ Marked Late",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
-                    val bodyString = obj.getString("body")
-                    val bodyJson = JSONObject(bodyString)
+                            // Fire confirmation notification
+                            fireConfirmationNotification(courseCode, courseName, "L")
+                        }
 
-                    val status = bodyJson.getString("status")
-
-                    if (status == "marked") {
-                        Toast.makeText(
+                        "already_marked" -> Toast.makeText(
                             this@StudentAttendanceActivity,
-                            "Attendance recorded!",
+                            "Already marked for this session",
                             Toast.LENGTH_SHORT
                         ).show()
 
-                    } else {
-                        Toast.makeText(
+                        "invalid" -> Toast.makeText(
                             this@StudentAttendanceActivity,
-                            "Failed to record attendance",
+                            "Invalid or expired code",
                             Toast.LENGTH_SHORT
                         ).show()
+
+                        else -> {
+                            val err = body.optString("error", "Unknown response")
+                            Log.e("ATTEND", "Unhandled status: $status — $err")
+                            Toast.makeText(
+                                this@StudentAttendanceActivity,
+                                err,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
 
-                } else {
+                } catch (e: Exception) {
+                    Log.e("ATTEND", "Parse error: ${e.message}")
                     Toast.makeText(
                         this@StudentAttendanceActivity,
-                        "Failed to record attendance",
+                        "Unexpected server response",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                submitBtn.isEnabled = true
+                submitBtn.text      = "Submit Attendance"
+                Log.e("ATTEND", "Network failure: ${t.message}")
                 Toast.makeText(
                     this@StudentAttendanceActivity,
-                    "Network error",
+                    "Network error: ${t.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
         })
+    }
+
+    private fun fireConfirmationNotification(
+        courseCode: String,
+        courseName: String,
+        status: String
+    ) {
+        // Respect notifications toggle
+        val prefs = getSharedPreferences("app_settings", MODE_PRIVATE)
+        if (!prefs.getBoolean("notifications_enabled", true)) return
+
+        NotificationHelper.showAttendanceConfirmedNotification(
+            context    = this,
+            courseName = courseName,
+            courseCode = courseCode,
+            status     = status
+        )
+
+        // Also cancel the active session notification since student just attended
+        NotificationHelper.cancel(this, NotificationHelper.NOTIF_ACTIVE_SESSION)
     }
 }

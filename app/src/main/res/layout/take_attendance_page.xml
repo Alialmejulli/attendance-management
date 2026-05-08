@@ -1,123 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#2E4F3D"
-    android:padding="16dp">
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp">
 
-    <!-- Back Arrow -->
-    <ImageView
-        android:id="@+id/backButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_arrow_back"
-        android:contentDescription="Back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- Page Title -->
-    <TextView
-        android:id="@+id/takeAttendanceTitle"
-        android:layout_width="wrap_content"
+    <!-- ── Header ──────────────────────────────────────────────── -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Take Attendance"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@id/backButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="48dp"
+        android:paddingBottom="24dp">
 
-    <!-- Scrollable Container -->
-    <ScrollView
-        android:id="@+id/scrollContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/takeAttendanceTitle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_back"
+            android:background="@drawable/circle_btn"
+            android:padding="10dp"
+            android:contentDescription="Back"
+            app:tint="#CCFFFFFF"
+            android:layout_marginEnd="14dp"/>
 
         <LinearLayout
-            android:id="@+id/takeAttendanceContainer"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_white_card"
-            android:padding="20dp">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <!-- Activation Code Section -->
             <TextView
-                android:id="@+id/codeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Activation Code"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#2E4F3D"
-                android:layout_marginBottom="8dp"/>
-
-            <TextView
-                android:id="@+id/generatedCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="----"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                android:textColor="#2E4F3D"
-                android:gravity="center"
-                android:padding="12dp"
-                android:background="#F2F2F2"
-                android:layout_marginBottom="16dp"/>
-
-            <Button
-                android:id="@+id/btnGenerateCode"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Generate Code"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:text="Take Attendance"
                 android:textColor="#FFFFFF"
-                android:backgroundTint="#2E4F3D"
-                android:layout_marginBottom="32dp"/>
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
-            <!-- Timer Section -->
             <TextView
-                android:id="@+id/timerLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Timer"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#2E4F3D"
-                android:layout_marginBottom="8dp"/>
-
-            <TextView
-                android:id="@+id/timerDisplay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="No timer selected"
-                android:textSize="18sp"
-                android:textColor="#2E4F3D"
-                android:gravity="center"
-                android:padding="12dp"
-                android:background="#F2F2F2"
-                android:layout_marginBottom="16dp"/>
-
-            <Button
-                android:id="@+id/btnChooseTimer"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Choose Timer Duration"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#2E4F3D"/>
+                android:text="Share this code with students"
+                android:textColor="#80FFFFFF"
+                android:textSize="13sp"
+                android:layout_marginTop="2dp"/>
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- ── ATTENDANCE CODE label ──────────────────────────────── -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ATTENDANCE CODE"
+        android:textColor="#60FFFFFF"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.1"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- ── Code display ───────────────────────────────────────── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/stat_chip">
+
+        <TextView
+            android:id="@+id/generatedCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- - - - -"
+            android:textColor="#FFFFFF"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.2"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" "
+            android:textColor="#60FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginTop="6dp"/>
+    </LinearLayout>
+
+    <!-- ── SESSION TIMER label ────────────────────────────────── -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SESSION TIMER"
+        android:textColor="#60FFFFFF"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.1"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- ── Timer display ──────────────────────────────────────── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/stat_chip">
+
+        <TextView
+            android:id="@+id/timerDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No timer selected"
+            android:textColor="#FFFFFF"
+            android:textSize="26sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <!-- ── Slide to cancel — hidden until session active ─────── -->
+    <com.example.aws.SlideToCancelView
+        android:id="@+id/slideToCancelView"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"/>
+
+    <!-- ── Flex spacer ────────────────────────────────────────── -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- ── Action buttons ─────────────────────────────────────── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:paddingBottom="32dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnChooseTimer"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:text="Choose Duration"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="#60FFFFFF"
+            app:strokeWidth="1.5dp"
+            app:cornerRadius="14dp"
+            android:layout_marginEnd="10dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGenerateCode"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:text="Generate Code"
+            android:textColor="#2E4F3D"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:backgroundTint="#FFFFFF"
+            app:cornerRadius="14dp"
+            app:rippleColor="#402E4F3D"/>
+    </LinearLayout>
+
+</LinearLayout>

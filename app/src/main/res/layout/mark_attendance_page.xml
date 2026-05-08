@@ -1,71 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#2E4F3D"
-    android:padding="16dp">
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp">
 
-    <!-- Back Arrow -->
-    <ImageView
-        android:id="@+id/backButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_arrow_back"
-        android:contentDescription="Back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <!-- ── Header ──────────────────────────────────────────────── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="48dp"
+        android:paddingBottom="24dp">
 
-    <!-- Course Code -->
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_back"
+            android:background="@drawable/circle_btn"
+            android:padding="10dp"
+            android:contentDescription="Back"
+            app:tint="#CCFFFFFF"
+            android:layout_marginEnd="14dp"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mark Attendance"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/courseCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#80FFFFFF"
+                android:textSize="13sp"
+                android:layout_marginTop="2dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ── Flex spacer ────────────────────────────────────────── -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- ── ENTER CODE label ───────────────────────────────────── -->
     <TextView
-        android:id="@+id/courseCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/course_code"
-        android:textSize="22sp"
+        android:text="ENTER SESSION CODE"
+        android:textColor="#60FFFFFF"
+        android:textSize="10sp"
         android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@id/backButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp" />
+        android:letterSpacing="0.1"
+        android:layout_marginBottom="10dp"/>
 
-    <!-- White Card -->
+    <!-- ── Code input card ────────────────────────────────────── -->
     <LinearLayout
-        android:id="@+id/infoCard"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/rounded_white_card"
-        android:padding="20dp"
-        app:layout_constraintTop_toBottomOf="@id/courseCode"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp">
+        android:background="@drawable/stat_chip"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
 
-
-        <!-- Input Box -->
         <EditText
             android:id="@+id/codeInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Activation Code"
-            android:padding="12dp"
-            android:background="@drawable/rounded_corner"
-            android:textSize="16sp" />
+            android:layout_height="64dp"
+            android:inputType="number"
+            android:maxLength="5"
+            android:hint="· · · · ·"
+            android:textColorHint="#60FFFFFF"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:letterSpacing="0.3"
+            android:background="@null"
+            android:padding="0dp"/>
 
-        <!-- Submit Button -->
-        <Button
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#40FFFFFF"
+            android:layout_marginBottom="20dp"/>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/submitBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="52dp"
             android:text="Submit Attendance"
-            android:backgroundTint="#2E4F3D"
-            android:textColor="@color/white"
-            android:padding="12dp"
-            android:layout_marginTop="20dp" />
-
+            android:textColor="#2E4F3D"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:backgroundTint="#FFFFFF"
+            app:cornerRadius="14dp"
+            app:rippleColor="#402E4F3D"/>
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- ── Flex spacer ────────────────────────────────────────── -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="32dp"/>
+
+</LinearLayout>

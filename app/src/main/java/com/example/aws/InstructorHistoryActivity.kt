@@ -1,12 +1,16 @@
 package com.example.aws
 
 import android.os.Bundle
-import android.view.Gravity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
@@ -19,9 +23,15 @@ class InstructorHistoryActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.instructor_history_page)
 
-        val sectionId = intent.getStringExtra("section_id")
+        val sectionId  = intent.getStringExtra("section_id")
+        val courseCode = intent.getStringExtra("course_code") ?: ""
+        val courseName = intent.getStringExtra("course_name") ?: ""
 
-        findViewById<View>(R.id.backButton).setOnClickListener { finish() }
+        findViewById<ImageView>(R.id.backButton).setOnClickListener { finish() }
+
+        if (courseCode.isNotEmpty()) {
+            findViewById<TextView>(R.id.historyTitle).text = "$courseCode — $courseName"
+        }
 
         if (sectionId == null) {
             Toast.makeText(this, "Missing section ID", Toast.LENGTH_SHORT).show()
@@ -32,56 +42,114 @@ class InstructorHistoryActivity : BaseActivity() {
     }
 
     private fun loadHistory(sectionId: String) {
-
         RetrofitClient.instance.getInstructorHistory(sectionId)
             .enqueue(object : Callback<ResponseBody> {
 
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                    if (!response.isSuccessful) {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    val raw = response.body()?.string() ?: run {
                         Toast.makeText(this@InstructorHistoryActivity, "Server error", Toast.LENGTH_SHORT).show()
                         return
                     }
 
-                    val raw = response.body()?.string()
-                    val obj = JSONObject(raw)
-                    val bodyString = obj.getString("body")
-                    val bodyJson = JSONObject(bodyString)
-                    val records = bodyJson.getJSONArray("records")
+                    Log.d("INSTR_HISTORY", "raw = $raw")
 
-                    // IMPORTANT: use the correct ID from XML
-                    val container = findViewById<LinearLayout>(R.id.instructorHistoryList)
+                    try {
+                        val outer   = JSONObject(raw)
+                        val bodyStr = outer.getString("body")
+                        val records = JSONObject(bodyStr).getJSONArray("records")
 
-                    // Clear the card
-                    container.removeAllViews()
+                        val emptyState  = findViewById<LinearLayout>(R.id.emptyState)
+                        val listWrapper = findViewById<LinearLayout>(R.id.instructorHistoryList)
+                        val recycler    = findViewById<RecyclerView>(R.id.historyRecycler)
 
-                    // EMPTY STATE HANDLING
-                    if (records.length() == 0) {
-                        val emptyText = TextView(this@InstructorHistoryActivity).apply {
-                            text = "No attendance history yet"
-                            textSize = 16f
-                            setTextColor(android.graphics.Color.GRAY)
-                            gravity = Gravity.CENTER
-                            setPadding(0, 32, 0, 32)
+                        if (records.length() == 0) {
+                            emptyState.visibility  = View.VISIBLE
+                            listWrapper.visibility = View.GONE
+                            updateChips(0, 0, 0, 0)
+                            return
                         }
-                        container.addView(emptyText)
-                        return
-                    }
 
-                    // Inflate rows
-                    val inflater = LayoutInflater.from(this@InstructorHistoryActivity)
+                        // Build list and count statuses
+                        data class HistoryRow(
+                            val name: String,
+                            val studentId: String,
+                            val date: String,
+                            val status: String
+                        )
 
-                    for (i in 0 until records.length()) {
-                        val rec = records.getJSONObject(i)
+                        val rows = mutableListOf<HistoryRow>()
+                        var present = 0; var late = 0; var absent = 0
 
-                        val row = inflater.inflate(R.layout.instructor_row_template, container, false)
+                        for (i in 0 until records.length()) {
+                            val rec       = records.getJSONObject(i)
+                            val name      = rec.optString("student_name", "Unknown")
+                            val studentId = rec.optString("student_id", "—")
+                            val timestamp = rec.optString("timestamp", "")
+                            val date      = if (timestamp.length >= 10) timestamp.substring(0, 10) else "—"
+                            val status    = rec.optString("status", "-").uppercase()
 
-                        row.findViewById<TextView>(R.id.studentIdText).text = rec.getString("student_id")
-                        row.findViewById<TextView>(R.id.studentNameText).text = rec.getString("student_name")
-                        row.findViewById<TextView>(R.id.statusText).text = rec.getString("status")
-                        row.findViewById<TextView>(R.id.dateText).text =
-                            rec.getString("timestamp").replace("T", " ")
+                            rows.add(HistoryRow(name, studentId, date, status))
 
-                        container.addView(row)
+                            when (status) {
+                                "P" -> present++
+                                "L" -> late++
+                                "A" -> absent++
+                            }
+                        }
+
+                        // Total = all records in this session
+                        val total = rows.size
+                        updateChips(total, present, late, absent)
+
+                        emptyState.visibility  = View.GONE
+                        listWrapper.visibility = View.VISIBLE
+
+                        recycler.layoutManager = LinearLayoutManager(this@InstructorHistoryActivity)
+                        recycler.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+                            inner class RowHolder(v: View) : RecyclerView.ViewHolder(v) {
+                                val name      = v.findViewById<TextView>(R.id.studentNameText)
+                                val studentId = v.findViewById<TextView>(R.id.studentIdText)
+                                val date      = v.findViewById<TextView>(R.id.dateText)
+                                val status    = v.findViewById<TextView>(R.id.statusChip)
+                            }
+
+                            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+                                val v = LayoutInflater.from(parent.context)
+                                    .inflate(R.layout.item_instructor_history, parent, false)
+                                return RowHolder(v)
+                            }
+
+                            override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                                val row = rows[position]
+                                val h   = holder as RowHolder
+                                h.name.text      = row.name
+                                h.studentId.text = row.studentId
+                                h.date.text      = row.date
+                                h.status.text    = row.status
+                                h.status.setBackgroundResource(
+                                    when (row.status) {
+                                        "P"  -> R.drawable.chip_present
+                                        "L"  -> R.drawable.chip_late
+                                        "A"  -> R.drawable.chip_absent
+                                        else -> R.drawable.chip_pending
+                                    }
+                                )
+                            }
+
+                            override fun getItemCount() = rows.size
+                        }
+
+                    } catch (e: Exception) {
+                        Log.e("INSTR_HISTORY", "Parse error: ${e.message}")
+                        Toast.makeText(
+                            this@InstructorHistoryActivity,
+                            "Invalid server response",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
@@ -89,5 +157,12 @@ class InstructorHistoryActivity : BaseActivity() {
                     Toast.makeText(this@InstructorHistoryActivity, "Network error", Toast.LENGTH_SHORT).show()
                 }
             })
+    }
+
+    private fun updateChips(total: Int, present: Int, late: Int, absent: Int) {
+        findViewById<TextView>(R.id.count_total).text   = total.toString()
+        findViewById<TextView>(R.id.count_present).text = present.toString()
+        findViewById<TextView>(R.id.count_late).text    = late.toString()
+        findViewById<TextView>(R.id.count_absent).text  = absent.toString()
     }
 }
