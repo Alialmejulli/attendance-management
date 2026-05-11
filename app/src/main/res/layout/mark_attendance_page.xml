@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#2E4F3D"
+    android:background="?attr/colorAppBackground"
     android:paddingStart="20dp"
     android:paddingEnd="20dp">
 
@@ -38,7 +38,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mark Attendance"
+                android:text="@string/title_mark_attendance"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
@@ -64,7 +64,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ENTER SESSION CODE"
+        android:text="@string/label_enter_code"
         android:textColor="#60FFFFFF"
         android:textSize="10sp"
         android:textStyle="bold"
@@ -76,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/stat_chip"
+        android:background="?attr/statChipDrawable"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:paddingTop="20dp"
@@ -108,7 +108,7 @@
             android:id="@+id/submitBtn"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:text="Submit Attendance"
+            android:text="@string/btn_submit_attendance"
             android:textColor="#2E4F3D"
             android:textSize="14sp"
             android:textStyle="bold"

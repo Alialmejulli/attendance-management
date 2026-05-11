@@ -43,13 +43,13 @@ class StudentHistoryActivity : BaseActivity() {
 
         val studentId = getLoggedInStudentId()
         if (studentId.isEmpty()) {
-            Toast.makeText(this, "No student ID found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.toast_no_student_id), Toast.LENGTH_SHORT).show()
             finish()
             return
         }
 
         if (sectionId.isEmpty()) {
-            Toast.makeText(this, "No section selected", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.toast_no_section), Toast.LENGTH_SHORT).show()
             finish()
             return
         }
@@ -67,7 +67,7 @@ class StudentHistoryActivity : BaseActivity() {
                     response: Response<ResponseBody>
                 ) {
                     if (!response.isSuccessful || response.body() == null) {
-                        Toast.makeText(this@StudentHistoryActivity, "Server error", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@StudentHistoryActivity, getString(R.string.toast_server_error), Toast.LENGTH_SHORT).show()
                         return
                     }
 
@@ -149,13 +149,13 @@ class StudentHistoryActivity : BaseActivity() {
 
                     } catch (e: Exception) {
                         Log.e("STUDENT_HISTORY", "Parse error: ${e.message}")
-                        Toast.makeText(this@StudentHistoryActivity, "Invalid server response", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@StudentHistoryActivity, getString(R.string.toast_invalid_server_response), Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Log.e("STUDENT_HISTORY", "Network failure: ${t.message}")
-                    Toast.makeText(this@StudentHistoryActivity, "Network error", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@StudentHistoryActivity, getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show()
                 }
             })
     }

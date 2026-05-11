@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2E4F3D"
+    android:background="?attr/colorAppBackground"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +62,7 @@
             android:id="@+id/app_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Attendance Management System"
+            android:text="@string/app_subtitle"
             android:textColor="#80FFFFFF"
             android:textSize="12sp"
             android:layout_marginTop="4dp"
@@ -101,7 +101,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign in with your university email or student ID"
+                android:text="@string/sign_in_subtitle"
                 android:textColor="#88000000"
                 android:textSize="12sp"
                 android:layout_marginBottom="24dp"/>
@@ -110,7 +110,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email or Student ID"
+                android:text="@string/label_email_or_id"
                 android:textColor="#2E4F3D"
                 android:textSize="12sp"
                 android:textStyle="bold"
@@ -132,7 +132,7 @@
                     android:id="@+id/id_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="e.g. 2200012345 or you@stu.kau.edu.sa"
+                    android:hint="@string/hint_email_or_id"
                     android:inputType="text"
                     android:textColor="#1a1a1a"
                     android:textColorHint="#AAAAAA"
@@ -148,7 +148,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password"
+                android:text="@string/label_password"
                 android:textColor="#2E4F3D"
                 android:textSize="12sp"
                 android:textStyle="bold"
@@ -172,7 +172,7 @@
                     android:id="@+id/password_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter your password"
+                    android:hint="@string/hint_password"
                     android:inputType="textPassword"
                     android:textColor="#1a1a1a"
                     android:textColorHint="#AAAAAA"
@@ -203,7 +203,7 @@
             android:id="@+id/version_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="King Abdulaziz University · v1.0"
+            android:text="@string/footer_university"
             android:textColor="#50FFFFFF"
             android:textSize="11sp"
             android:layout_marginTop="20dp"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#2E4F3D"
+    android:background="?attr/colorAppBackground"
     android:paddingStart="20dp"
     android:paddingEnd="20dp">
 
@@ -79,7 +79,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/stat_chip"
+            android:background="?attr/statChipDrawable"
             android:layout_marginEnd="8dp">
 
             <TextView
@@ -98,7 +98,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ID"
+                android:text="@string/label_id"
                 android:textColor="#80FFFFFF"
                 android:textSize="11sp"
                 android:layout_marginTop="3dp"/>
@@ -110,7 +110,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/stat_chip">
+            android:background="?attr/statChipDrawable">
 
             <TextView
                 android:id="@+id/instructor_department"
@@ -129,7 +129,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Department"
+                android:text="@string/label_department"
                 android:textColor="#80FFFFFF"
                 android:textSize="11sp"
                 android:layout_marginTop="3dp"/>
@@ -140,7 +140,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MY CLASSES"
+        android:text="@string/label_my_classes"
         android:textColor="#80FFFFFF"
         android:textSize="11sp"
         android:textStyle="bold"
@@ -161,7 +161,7 @@
         android:id="@+id/select_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tap a class to select it"
+        android:text="@string/hint_tap_class"
         android:textColor="#60FFFFFF"
         android:textSize="12sp"
         android:gravity="center"
@@ -180,7 +180,7 @@
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_weight="1"
-            android:text="Take Attendance"
+            android:text="@string/btn_take_attendance"
             android:textColor="#2E4F3D"
             android:textSize="12sp"
             android:textStyle="bold"
@@ -196,7 +196,7 @@
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_weight="1"
-            android:text="History"
+            android:text="@string/btn_history"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
             android:textStyle="bold"

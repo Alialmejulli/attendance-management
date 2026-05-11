@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#2E4F3D"
+    android:background="?attr/colorAppBackground"
     android:paddingStart="20dp"
     android:paddingEnd="20dp">
 
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="@drawable/stat_chip"
+        android:background="?attr/statChipDrawable"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingTop="12dp"
@@ -94,7 +94,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PREFERENCES"
+        android:text="@string/label_preferences"
         android:textColor="#60FFFFFF"
         android:textSize="10sp"
         android:textStyle="bold"
@@ -106,7 +106,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/stat_chip"
+        android:background="?attr/statChipDrawable"
         android:layout_marginBottom="16dp">
 
         <!-- Notifications row -->
@@ -149,6 +149,74 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"/>
 
+        <!-- Theme row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_menu_gallery"
+                android:layout_marginEnd="14dp"
+                app:tint="#80FFFFFF" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/theme"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="?attr/statChipDrawable"
+                android:padding="3dp">
+
+                <Button
+                    android:id="@+id/btn_theme_green"
+                    android:layout_width="56dp"
+                    android:layout_height="32dp"
+                    android:text="@string/theme_green"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/language_unselected"
+                    app:backgroundTint="@null"
+                    android:foreground="@null"
+                    android:textColor="#FFFFFF"
+                    android:padding="0dp"/>
+
+                <Button
+                    android:id="@+id/btn_theme_dark"
+                    android:layout_width="56dp"
+                    android:layout_height="32dp"
+                    android:text="@string/theme_dark"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/language_unselected"
+                    app:backgroundTint="@null"
+                    android:foreground="@null"
+                    android:textColor="#FFFFFF"
+                    android:padding="0dp"
+                    android:layout_marginStart="2dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#15FFFFFF"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
         <!-- Language row -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -177,7 +245,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@drawable/stat_chip"
+                android:background="?attr/statChipDrawable"
                 android:padding="3dp">
 
                 <Button
@@ -214,7 +282,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GENERAL"
+        android:text="@string/label_general"
         android:textColor="#60FFFFFF"
         android:textSize="10sp"
         android:textStyle="bold"
@@ -226,7 +294,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/stat_chip"
+        android:background="?attr/statChipDrawable"
         android:layout_marginBottom="16dp">
 
         <!-- About row -->

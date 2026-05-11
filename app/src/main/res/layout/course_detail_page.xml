@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2E4F3D"
+    android:background="?attr/colorAppBackground"
     android:padding="16dp">
 
     <!-- Back Arrow -->
@@ -81,7 +81,7 @@
         android:id="@+id/markAttendanceBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Mark Attendance"
+        android:text="@string/btn_mark_attendance"
         android:backgroundTint="@color/white"
         android:textColor="#2E4F3D"
         android:padding="12dp"
@@ -95,7 +95,7 @@
         android:id="@+id/viewAttendanceBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="View Attendance"
+        android:text="@string/title_attendance_history"
         android:backgroundTint="@color/white"
         android:textColor="#2E4F3D"
         android:padding="12dp"

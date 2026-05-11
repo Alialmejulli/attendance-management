@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#2E4F3D"
+    android:background="?attr/colorAppBackground"
     android:paddingStart="20dp"
     android:paddingEnd="20dp">
 
@@ -38,7 +38,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Session History"
+                android:text="@string/title_session_history"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
@@ -69,7 +69,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/stat_chip"
+            android:background="?attr/statChipDrawable"
             android:layout_marginEnd="6dp">
 
             <TextView
@@ -84,7 +84,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total"
+                android:text="@string/label_total"
                 android:textColor="#80FFFFFF"
                 android:textSize="9sp"
                 android:layout_marginTop="2dp"/>
@@ -97,7 +97,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/stat_chip"
+            android:background="?attr/statChipDrawable"
             android:layout_marginEnd="6dp">
 
             <TextView
@@ -112,7 +112,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Present"
+                android:text="@string/label_present"
                 android:textColor="#80FFFFFF"
                 android:textSize="9sp"
                 android:layout_marginTop="2dp"/>
@@ -125,7 +125,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/stat_chip"
+            android:background="?attr/statChipDrawable"
             android:layout_marginEnd="6dp">
 
             <TextView
@@ -140,7 +140,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Late"
+                android:text="@string/label_late"
                 android:textColor="#80FFFFFF"
                 android:textSize="9sp"
                 android:layout_marginTop="2dp"/>
@@ -153,7 +153,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/stat_chip">
+            android:background="?attr/statChipDrawable">
 
             <TextView
                 android:id="@+id/count_absent"
@@ -167,7 +167,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Absent"
+                android:text="@string/label_absent"
                 android:textColor="#80FFFFFF"
                 android:textSize="9sp"
                 android:layout_marginTop="2dp"/>
@@ -178,7 +178,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="STUDENTS"
+        android:text="@string/label_students"
         android:textColor="#60FFFFFF"
         android:textSize="10sp"
         android:textStyle="bold"
@@ -205,7 +205,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No session data yet"
+            android:text="@string/msg_no_session"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"/>
@@ -213,7 +213,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start a session to see&#10;student attendance here"
+            android:text="@string/msg_no_session_sub"
             android:textColor="#80FFFFFF"
             android:textSize="13sp"
             android:gravity="center"

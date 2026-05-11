@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#2E4F3D"
+    android:background="?attr/colorAppBackground"
     android:paddingStart="20dp"
     android:paddingEnd="20dp">
 
@@ -38,7 +38,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Take Attendance"
+                android:text="@string/title_take_attendance"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Share this code with students"
+                android:text="@string/subtitle_share_code"
                 android:textColor="#80FFFFFF"
                 android:textSize="13sp"
                 android:layout_marginTop="2dp"/>
@@ -57,7 +57,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ATTENDANCE CODE"
+        android:text="@string/label_attendance_code"
         android:textColor="#60FFFFFF"
         android:textSize="10sp"
         android:textStyle="bold"
@@ -70,7 +70,7 @@
         android:layout_height="130dp"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/stat_chip">
+        android:background="?attr/statChipDrawable">
 
         <TextView
             android:id="@+id/generatedCode"
@@ -95,7 +95,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SESSION TIMER"
+        android:text="@string/label_session_timer"
         android:textColor="#60FFFFFF"
         android:textSize="10sp"
         android:textStyle="bold"
@@ -109,13 +109,13 @@
         android:layout_height="80dp"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/stat_chip">
+        android:background="?attr/statChipDrawable">
 
         <TextView
             android:id="@+id/timerDisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No timer selected"
+            android:text="@string/text_no_timer"
             android:textColor="#FFFFFF"
             android:textSize="26sp"
             android:textStyle="bold"/>
@@ -148,7 +148,7 @@
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_weight="1"
-            android:text="Choose Duration"
+            android:text="@string/btn_choose_duration"
             android:textColor="#FFFFFF"
             android:textSize="13sp"
             android:textStyle="bold"
@@ -163,7 +163,7 @@
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_weight="1"
-            android:text="Generate Code"
+            android:text="@string/btn_generate_code"
             android:textColor="#2E4F3D"
             android:textSize="13sp"
             android:textStyle="bold"

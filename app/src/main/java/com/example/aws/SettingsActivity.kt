@@ -45,6 +45,30 @@ class SettingsActivity : BaseActivity() {
         notificationsSwitch.isChecked = prefs.getBoolean("notifications_enabled", true)
         notificationsSwitch.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit { putBoolean("notifications_enabled", isChecked) }
+            syncToUserPrefs("notifications_enabled", isChecked)
+        }
+
+        // ── Theme buttons ─────────────────────────────────────────
+        val btnThemeGreen = findViewById<android.widget.Button>(R.id.btn_theme_green)
+        val btnThemeDark  = findViewById<android.widget.Button>(R.id.btn_theme_dark)
+        val savedTheme    = prefs.getString("app_theme", "green") ?: "green"
+
+        updateThemeButtons(btnThemeGreen, btnThemeDark, savedTheme)
+
+        btnThemeGreen.setOnClickListener {
+            prefs.edit { putString("app_theme", "green") }
+            syncToUserPrefs("app_theme", "green")
+            updateThemeButtons(btnThemeGreen, btnThemeDark, "green")
+            setResult(RESULT_OK)
+            finish()
+        }
+
+        btnThemeDark.setOnClickListener {
+            prefs.edit { putString("app_theme", "dark") }
+            syncToUserPrefs("app_theme", "dark")
+            updateThemeButtons(btnThemeGreen, btnThemeDark, "dark")
+            setResult(RESULT_OK)
+            finish()
         }
 
         // ── Language buttons ──────────────────────────────────────
@@ -56,6 +80,7 @@ class SettingsActivity : BaseActivity() {
 
         btnEnglish.setOnClickListener {
             prefs.edit { putString("app_language", "en") }
+            syncToUserPrefs("app_language", "en")
             updateLanguageButtons(btnEnglish, btnArabic, "en")
             setLocale("en")
             setResult(RESULT_OK)
@@ -64,6 +89,7 @@ class SettingsActivity : BaseActivity() {
 
         btnArabic.setOnClickListener {
             prefs.edit { putString("app_language", "ar") }
+            syncToUserPrefs("app_language", "ar")
             updateLanguageButtons(btnEnglish, btnArabic, "ar")
             setLocale("ar")
             setResult(RESULT_OK)
@@ -73,44 +99,44 @@ class SettingsActivity : BaseActivity() {
         // ── About AMS dialog ──────────────────────────────────────
         findViewById<LinearLayout>(R.id.about_app).setOnClickListener {
             AlertDialog.Builder(this)
-                .setTitle("About AMS")
-                .setMessage(
-                    "Attendance Management System (AMS)\n" +
-                            "Version 1.0\n\n" +
-                            "AMS is a mobile attendance tracking system developed for King Abdulaziz University (KAU). " +
-                            "It streamlines the attendance process by allowing instructors to generate timed session codes " +
-                            "that students scan or enter in the app to mark their presence — eliminating paper-based " +
-                            "roll calls and manual record keeping.\n\n" +
-                            "Key features:\n" +
-                            "• Timed session codes with automatic expiry\n" +
-                            "• Automatic present / late / absent classification\n" +
-                            "• Real-time attendance history for both students and instructors\n" +
-                            "• Arabic and English language support\n\n" +
-                            "Faculty of Computing & Information Technology\n" +
-                            "King Abdulaziz University · Rabigh, Saudi Arabia"
-                )
-                .setPositiveButton("Close", null)
+                .setTitle(getString(R.string.dialog_about_title))
+                .setMessage(getString(R.string.dialog_about_message))
+                .setPositiveButton(getString(R.string.dialog_close), null)
                 .show()
         }
 
         // ── Logout ────────────────────────────────────────────────
         findViewById<MaterialButton>(R.id.logout).setOnClickListener {
             AlertDialog.Builder(this)
-                .setTitle("Log Out")
-                .setMessage("Are you sure you want to log out?")
-                .setPositiveButton("Yes") { _, _ ->
+                .setTitle(getString(R.string.dialog_logout_title))
+                .setMessage(getString(R.string.dialog_logout_message))
+                .setPositiveButton(getString(R.string.dialog_yes)) { _, _ ->
                     getSharedPreferences("app_settings",  MODE_PRIVATE).edit().clear().apply()
                     getSharedPreferences("user_session",  MODE_PRIVATE).edit().clear().apply()
                     val intent = Intent(this, LoginActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                 }
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(getString(R.string.dialog_cancel), null)
                 .show()
         }
     }
 
     // ── Helpers ───────────────────────────────────────────────────
+
+    private fun syncToUserPrefs(key: String, value: String) {
+        val userId = getSharedPreferences("user_session", MODE_PRIVATE).getString("user_id", "") ?: ""
+        if (userId.isNotEmpty()) {
+            getSharedPreferences("user_prefs_$userId", MODE_PRIVATE).edit { putString(key, value) }
+        }
+    }
+
+    private fun syncToUserPrefs(key: String, value: Boolean) {
+        val userId = getSharedPreferences("user_session", MODE_PRIVATE).getString("user_id", "") ?: ""
+        if (userId.isNotEmpty()) {
+            getSharedPreferences("user_prefs_$userId", MODE_PRIVATE).edit { putBoolean(key, value) }
+        }
+    }
 
     private fun updateLanguageButtons(
         btnEn: android.widget.Button,
@@ -130,12 +156,31 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
+    private fun updateThemeButtons(
+        btnGreen: android.widget.Button,
+        btnDark: android.widget.Button,
+        selected: String
+    ) {
+        if (selected == "dark") {
+            btnDark.setBackgroundResource(R.drawable.language_selected)
+            btnDark.setTextColor(android.graphics.Color.parseColor("#2E4F3D"))
+            btnGreen.setBackgroundResource(R.drawable.language_unselected)
+            btnGreen.setTextColor(android.graphics.Color.WHITE)
+        } else {
+            btnGreen.setBackgroundResource(R.drawable.language_selected)
+            btnGreen.setTextColor(android.graphics.Color.parseColor("#2E4F3D"))
+            btnDark.setBackgroundResource(R.drawable.language_unselected)
+            btnDark.setTextColor(android.graphics.Color.WHITE)
+        }
+    }
+
     private fun setLocale(language: String) {
         val locale = java.util.Locale(language)
         java.util.Locale.setDefault(locale)
         val config = resources.configuration
         config.setLocale(locale)
         config.setLayoutDirection(locale)
+        @Suppress("DEPRECATION")
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 }

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2E4F3D"
+    android:background="?attr/colorAppBackground"
     android:padding="16dp">
 
     <!-- Back Arrow -->
@@ -71,7 +71,7 @@
         android:id="@+id/takeAttendanceBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Take Attendance"
+        android:text="@string/btn_take_attendance"
         android:backgroundTint="@color/white"
         android:textColor="#2E4F3D"
         android:padding="12dp"
@@ -85,7 +85,7 @@
         android:id="@+id/attendanceHistoryBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Attendance History"
+        android:text="@string/title_attendance_history"
         android:backgroundTint="@color/white"
         android:textColor="#2E4F3D"
         android:padding="12dp"

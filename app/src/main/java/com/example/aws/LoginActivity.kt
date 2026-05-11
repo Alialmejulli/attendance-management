@@ -59,7 +59,7 @@ class LoginActivity : BaseActivity() {
                         val raw = response.body()?.string()
                             ?: response.errorBody()?.string()
                             ?: run {
-                                Toast.makeText(this@LoginActivity, "Server error", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@LoginActivity, getString(R.string.toast_server_error), Toast.LENGTH_SHORT).show()
                                 return
                             }
 
@@ -84,9 +84,18 @@ class LoginActivity : BaseActivity() {
                             val lastName  = user.getString("last_name")
                             val role      = user.getString("role")
 
+                            // Load this user's saved settings into app_settings
+                            val savedUserPrefs = getSharedPreferences("user_prefs_$id", MODE_PRIVATE)
+                            getSharedPreferences("app_settings", MODE_PRIVATE).edit().apply {
+                                putString("app_language", savedUserPrefs.getString("app_language", "en"))
+                                putString("app_theme",    savedUserPrefs.getString("app_theme", "green"))
+                                putBoolean("notifications_enabled", savedUserPrefs.getBoolean("notifications_enabled", true))
+                                apply()
+                            }
+
                             Toast.makeText(
                                 this@LoginActivity,
-                                "Welcome $firstName",
+                                getString(R.string.toast_welcome, firstName),
                                 Toast.LENGTH_SHORT
                             ).show()
 
@@ -94,6 +103,7 @@ class LoginActivity : BaseActivity() {
                                 "student" -> {
                                     getSharedPreferences("user_session", MODE_PRIVATE).edit {
                                         putString("student_id", id)
+                                        putString("user_id", id)
                                     }
                                     val intent = Intent(this@LoginActivity, StudentHomeActivity::class.java)
                                     intent.putExtra("student_id", id)
@@ -104,6 +114,9 @@ class LoginActivity : BaseActivity() {
                                     startActivity(intent)
                                 }
                                 "instructor" -> {
+                                    getSharedPreferences("user_session", MODE_PRIVATE).edit {
+                                        putString("user_id", id)
+                                    }
                                     val intent = Intent(this@LoginActivity, InstructorHomeActivity::class.java)
                                     intent.putExtra("instructor_id", id)
                                     intent.putExtra("first_name", firstName)
@@ -112,21 +125,21 @@ class LoginActivity : BaseActivity() {
                                     startActivity(intent)
                                 }
                                 else -> {
-                                    Toast.makeText(this@LoginActivity, "Unknown role: $role", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this@LoginActivity, getString(R.string.toast_unknown_role, role), Toast.LENGTH_SHORT).show()
                                 }
                             }
                             finish()
 
                         } catch (e: Exception) {
                             Log.e("LOGIN", "Parse error", e)
-                            Toast.makeText(this@LoginActivity, "Unexpected server response", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@LoginActivity, getString(R.string.toast_unexpected_response), Toast.LENGTH_SHORT).show()
                         }
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         btnLogin.isEnabled = true
                         btnLogin.text = getString(R.string.log_in)
-                        Toast.makeText(this@LoginActivity, "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity, getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show()
                         Log.e("LOGIN", "Network failure", t)
                     }
                 })

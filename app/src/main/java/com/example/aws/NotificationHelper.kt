@@ -26,10 +26,10 @@ object NotificationHelper {
             // HIGH importance = drops from top as heads-up notification
             val sessionChannel = NotificationChannel(
                 CHANNEL_SESSION,
-                "Attendance Sessions",
+                context.getString(R.string.notif_channel_session_name),
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
-                description = "Alerts when an attendance session is active for your course"
+                description = context.getString(R.string.notif_channel_session_desc)
                 enableVibration(true)
                 enableLights(true)
             }
@@ -37,10 +37,10 @@ object NotificationHelper {
             // LOW importance = silent, appears in shade only
             val confirmChannel = NotificationChannel(
                 CHANNEL_CONFIRM,
-                "Attendance Confirmations",
+                context.getString(R.string.notif_channel_confirm_name),
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
-                description = "Confirms when your attendance has been recorded"
+                description = context.getString(R.string.notif_channel_confirm_desc)
             }
 
             manager.createNotificationChannel(sessionChannel)
@@ -72,15 +72,11 @@ object NotificationHelper {
 
         val notification = NotificationCompat.Builder(context, CHANNEL_SESSION)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
-            .setContentTitle("📋 Attendance Session Active")
-            .setContentText("$courseName ($courseCode) — Code: $code")
+            .setContentTitle(context.getString(R.string.notif_session_title))
+            .setContentText(context.getString(R.string.notif_session_text, courseName, courseCode, code))
             .setStyle(
                 NotificationCompat.BigTextStyle()
-                    .bigText(
-                        "Your instructor has started an attendance session for $courseName.\n\n" +
-                                "Session code: $code\n\n" +
-                                "Tap to mark your attendance now."
-                    )
+                    .bigText(context.getString(R.string.notif_session_big_text, courseName, code))
             )
             // These three together guarantee heads-up drop from top
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -102,21 +98,18 @@ object NotificationHelper {
         status: String
     ) {
         val statusText = when (status) {
-            "P"  -> "Present ✓"
-            "L"  -> "Late ✓"
-            else -> "Recorded ✓"
+            "P"  -> context.getString(R.string.notif_status_present)
+            "L"  -> context.getString(R.string.notif_status_late)
+            else -> context.getString(R.string.notif_status_recorded)
         }
 
         val notification = NotificationCompat.Builder(context, CHANNEL_CONFIRM)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
-            .setContentTitle("Attendance Recorded — $statusText")
-            .setContentText("$courseName ($courseCode)")
+            .setContentTitle(context.getString(R.string.notif_confirm_title, statusText))
+            .setContentText(context.getString(R.string.notif_confirm_text, courseName, courseCode))
             .setStyle(
                 NotificationCompat.BigTextStyle()
-                    .bigText(
-                        "Your attendance for $courseName has been recorded as $statusText.\n\n" +
-                                "Keep this as your receipt."
-                    )
+                    .bigText(context.getString(R.string.notif_confirm_big_text, courseName, statusText))
             )
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setAutoCancel(true)

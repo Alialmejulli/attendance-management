@@ -46,23 +46,23 @@ class StudentAttendanceActivity : BaseActivity() {
             val code = codeInput.text.toString().trim().replace("\u0000", "")
 
             if (code.isEmpty()) {
-                Toast.makeText(this, "Please enter the code", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.toast_please_enter_code), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             val studentId = getLoggedInStudentId()
             if (studentId.isEmpty()) {
-                Toast.makeText(this, "Error: No student ID found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.toast_error_no_student_id), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (sectionId.isEmpty()) {
-                Toast.makeText(this, "Error: Missing section ID", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.toast_error_no_section), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             submitBtn.isEnabled = false
-            submitBtn.text      = "Submitting…"
+            submitBtn.text      = getString(R.string.msg_submitting)
 
             attend(studentId, sectionId, code, courseCode, courseName, submitBtn)
         }
@@ -87,12 +87,12 @@ class StudentAttendanceActivity : BaseActivity() {
                 response: Response<ResponseBody>
             ) {
                 submitBtn.isEnabled = true
-                submitBtn.text      = "Submit Attendance"
+                submitBtn.text      = getString(R.string.btn_submit_attendance)
 
                 val raw = response.body()?.string() ?: run {
                     Toast.makeText(
                         this@StudentAttendanceActivity,
-                        "Server error",
+                        getString(R.string.toast_server_error),
                         Toast.LENGTH_SHORT
                     ).show()
                     return
@@ -110,7 +110,7 @@ class StudentAttendanceActivity : BaseActivity() {
                         "P", "present" -> {
                             Toast.makeText(
                                 this@StudentAttendanceActivity,
-                                "✓ Marked Present",
+                                getString(R.string.toast_marked_present),
                                 Toast.LENGTH_SHORT
                             ).show()
 
@@ -121,7 +121,7 @@ class StudentAttendanceActivity : BaseActivity() {
                         "L", "late" -> {
                             Toast.makeText(
                                 this@StudentAttendanceActivity,
-                                "✓ Marked Late",
+                                getString(R.string.toast_marked_late),
                                 Toast.LENGTH_SHORT
                             ).show()
 
@@ -131,18 +131,18 @@ class StudentAttendanceActivity : BaseActivity() {
 
                         "already_marked" -> Toast.makeText(
                             this@StudentAttendanceActivity,
-                            "Already marked for this session",
+                            getString(R.string.toast_already_marked),
                             Toast.LENGTH_SHORT
                         ).show()
 
                         "invalid" -> Toast.makeText(
                             this@StudentAttendanceActivity,
-                            "Invalid or expired code",
+                            getString(R.string.toast_invalid_code),
                             Toast.LENGTH_SHORT
                         ).show()
 
                         else -> {
-                            val err = body.optString("error", "Unknown response")
+                            val err = body.optString("error", getString(R.string.toast_unexpected_response))
                             Log.e("ATTEND", "Unhandled status: $status — $err")
                             Toast.makeText(
                                 this@StudentAttendanceActivity,
@@ -156,7 +156,7 @@ class StudentAttendanceActivity : BaseActivity() {
                     Log.e("ATTEND", "Parse error: ${e.message}")
                     Toast.makeText(
                         this@StudentAttendanceActivity,
-                        "Unexpected server response",
+                        getString(R.string.toast_unexpected_response),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -164,11 +164,11 @@ class StudentAttendanceActivity : BaseActivity() {
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 submitBtn.isEnabled = true
-                submitBtn.text      = "Submit Attendance"
+                submitBtn.text      = getString(R.string.btn_submit_attendance)
                 Log.e("ATTEND", "Network failure: ${t.message}")
                 Toast.makeText(
                     this@StudentAttendanceActivity,
-                    "Network error: ${t.message}",
+                    getString(R.string.toast_network_error),
                     Toast.LENGTH_SHORT
                 ).show()
             }

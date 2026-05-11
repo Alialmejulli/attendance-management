@@ -13,7 +13,6 @@ import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -21,7 +20,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class InstructorAttendanceActivity : AppCompatActivity() {
+class InstructorAttendanceActivity : BaseActivity() {
 
     private lateinit var sectionId: String
     private var selectedMinutes: Int? = null
@@ -118,7 +117,7 @@ class InstructorAttendanceActivity : AppCompatActivity() {
 
         AlertDialog.Builder(this)
             .setView(dialogView)
-            .setPositiveButton("Confirm") { _, _ ->
+            .setPositiveButton(getString(R.string.dialog_confirm)) { _, _ ->
                 selectedMinutes = durations[picker.value].toInt()
                 findViewById<TextView>(R.id.timerDisplay).text =
                     String.format("%02d:00", selectedMinutes!!)
@@ -127,7 +126,7 @@ class InstructorAttendanceActivity : AppCompatActivity() {
                     alpha     = 1f
                 }
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(getString(R.string.dialog_cancel), null)
             .show()
     }
 
@@ -137,7 +136,7 @@ class InstructorAttendanceActivity : AppCompatActivity() {
         val btnGenerate = findViewById<MaterialButton>(R.id.btnGenerateCode)
         btnGenerate.isEnabled = false
         btnGenerate.alpha     = 0.45f
-        btnGenerate.text      = "Starting…"
+        btnGenerate.text      = getString(R.string.msg_starting)
 
         Log.d("ATTEND_SESSION", "Starting session — sectionId='$sectionId' minutes=$minutes")
 
@@ -152,7 +151,7 @@ class InstructorAttendanceActivity : AppCompatActivity() {
                         ?: response.errorBody()?.string()
                         ?: run {
                             Toast.makeText(this@InstructorAttendanceActivity,
-                                "Empty server response", Toast.LENGTH_SHORT).show()
+                                getString(R.string.toast_empty_response), Toast.LENGTH_SHORT).show()
                             resetGenerateButton()
                             return
                         }
@@ -173,7 +172,7 @@ class InstructorAttendanceActivity : AppCompatActivity() {
 
                         val code = bodyJson.optString("code", "").ifEmpty {
                             Toast.makeText(this@InstructorAttendanceActivity,
-                                "No code returned", Toast.LENGTH_SHORT).show()
+                                getString(R.string.toast_no_code_returned), Toast.LENGTH_SHORT).show()
                             resetGenerateButton()
                             return
                         }
@@ -182,7 +181,7 @@ class InstructorAttendanceActivity : AppCompatActivity() {
 
                         updateCodeDisplay(code)
                         Toast.makeText(this@InstructorAttendanceActivity,
-                            "Session started!", Toast.LENGTH_SHORT).show()
+                            getString(R.string.toast_session_started), Toast.LENGTH_SHORT).show()
 
                         val diffSeconds = minutes * 60
                         sessionDurationSeconds = diffSeconds
@@ -207,7 +206,7 @@ class InstructorAttendanceActivity : AppCompatActivity() {
                     } catch (e: Exception) {
                         Log.e("ATTEND_SESSION", "Parse error: ${e.message}")
                         Toast.makeText(this@InstructorAttendanceActivity,
-                            "Unexpected server response", Toast.LENGTH_SHORT).show()
+                            getString(R.string.toast_unexpected_response), Toast.LENGTH_SHORT).show()
                         resetGenerateButton()
                     }
                 }
@@ -215,7 +214,7 @@ class InstructorAttendanceActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Log.e("ATTEND_SESSION", "Network failure: ${t.message}")
                     Toast.makeText(this@InstructorAttendanceActivity,
-                        "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+                        getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show()
                     resetGenerateButton()
                 }
             })
@@ -225,10 +224,10 @@ class InstructorAttendanceActivity : AppCompatActivity() {
 
     private fun confirmCancel() {
         AlertDialog.Builder(this)
-            .setTitle("Cancel Session?")
-            .setMessage("Students will no longer be able to submit attendance for this session.")
-            .setPositiveButton("Cancel Session") { _, _ -> cancelSession() }
-            .setNegativeButton("Keep Session", null)
+            .setTitle(getString(R.string.dialog_cancel_session_title))
+            .setMessage(getString(R.string.dialog_cancel_session_message))
+            .setPositiveButton(getString(R.string.dialog_btn_cancel_session)) { _, _ -> cancelSession() }
+            .setNegativeButton(getString(R.string.dialog_btn_keep_session), null)
             .show()
     }
 
@@ -241,7 +240,7 @@ class InstructorAttendanceActivity : AppCompatActivity() {
                 ) {
                     Log.d("ATTEND_SESSION", "Session cancelled")
                     Toast.makeText(this@InstructorAttendanceActivity,
-                        "Session cancelled", Toast.LENGTH_SHORT).show()
+                        getString(R.string.toast_session_cancelled), Toast.LENGTH_SHORT).show()
 
                     // Stop the timer service
                     timerService?.stopTimer()
@@ -253,7 +252,7 @@ class InstructorAttendanceActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Log.e("ATTEND_SESSION", "Cancel failed: ${t.message}")
                     Toast.makeText(this@InstructorAttendanceActivity,
-                        "Failed to cancel: ${t.message}", Toast.LENGTH_SHORT).show()
+                        getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show()
 
                     // Reset slide view even if server call failed
                     findViewById<SlideToCancelView>(R.id.slideToCancelView).reset()
@@ -277,7 +276,7 @@ class InstructorAttendanceActivity : AppCompatActivity() {
     private fun setSessionActiveUI() {
         // Disable both buttons
         findViewById<MaterialButton>(R.id.btnGenerateCode).apply {
-            isEnabled = false; alpha = 0.45f; text = "Generate Code"
+            isEnabled = false; alpha = 0.45f; text = getString(R.string.btn_generate_code)
         }
         findViewById<MaterialButton>(R.id.btnChooseTimer).apply {
             isEnabled = false; alpha = 0.45f
@@ -295,13 +294,13 @@ class InstructorAttendanceActivity : AppCompatActivity() {
         // Reset code display
         findViewById<TextView>(R.id.generatedCode).text = "- - - - -"
         // Reset timer display
-        findViewById<TextView>(R.id.timerDisplay).text  = "No timer selected"
+        findViewById<TextView>(R.id.timerDisplay).text  = getString(R.string.text_no_timer)
         // Re-enable choose duration, disable generate
         findViewById<MaterialButton>(R.id.btnChooseTimer).apply {
             isEnabled = true; alpha = 1f
         }
         findViewById<MaterialButton>(R.id.btnGenerateCode).apply {
-            isEnabled = false; alpha = 0.45f; text = "Generate Code"
+            isEnabled = false; alpha = 0.45f; text = getString(R.string.btn_generate_code)
         }
         // Hide and reset slide view
         val slideView = findViewById<SlideToCancelView>(R.id.slideToCancelView)
@@ -313,7 +312,7 @@ class InstructorAttendanceActivity : AppCompatActivity() {
 
     private fun resetGenerateButton() {
         findViewById<MaterialButton>(R.id.btnGenerateCode).apply {
-            isEnabled = true; alpha = 1f; text = "Generate Code"
+            isEnabled = true; alpha = 1f; text = getString(R.string.btn_generate_code)
         }
     }
 
