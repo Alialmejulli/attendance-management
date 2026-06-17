@@ -69,8 +69,14 @@ interface ApiService {
         @Header("section_id") sectionId: String
     ): Call<ResponseBody>
 
+    @GET("session_list/")
+    fun getSessionList(
+        @Query("section_id") sectionId: String
+    ): Call<ResponseBody>
+
     @GET("instructor_history")
     fun getInstructorHistory(
-        @Query("section_id") sectionId: String
+        @Query("section_id") sectionId: String,
+        @Header("session_id") sessionId: String
     ): Call<ResponseBody>
 }

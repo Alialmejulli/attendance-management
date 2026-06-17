@@ -63,7 +63,7 @@ class InstructorHomeActivity : BaseActivity() {
 
         btnHistory.setOnClickListener {
             selectedCourse?.let { course ->
-                val intent = Intent(this, InstructorHistoryActivity::class.java)
+                val intent = Intent(this, InstructorSessionsActivity::class.java)
                 intent.putExtra("section_id", course.sectionId)
                 startActivity(intent)
             }
@@ -98,7 +98,7 @@ class InstructorHomeActivity : BaseActivity() {
                 override fun onFailure(call: Call<InstructorResponse>, t: Throwable) {
                     Toast.makeText(
                         this@InstructorHomeActivity,
-                        "Failed to load classes",
+                        getString(R.string.toast_failed_classes),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

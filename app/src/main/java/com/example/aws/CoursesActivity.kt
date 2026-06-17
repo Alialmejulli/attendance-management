@@ -34,7 +34,7 @@ class CoursesActivity : BaseActivity() {
             ) {
 
                 if (!response.isSuccessful) {
-                    Toast.makeText(this@CoursesActivity, "Server error", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@CoursesActivity, getString(R.string.toast_server_error), Toast.LENGTH_SHORT).show()
                     return
                 }
 

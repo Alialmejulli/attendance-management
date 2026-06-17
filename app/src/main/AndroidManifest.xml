@@ -42,7 +42,9 @@
         <activity android:name=".MyClassesDetailActivity" />
         <activity android:name=".InstructorAttendanceActivity" />
         <activity android:name=".InstructorHistoryActivity" />
+        <activity android:name=".InstructorSessionsActivity" />
         <activity android:name=".StudentHistoryActivity" />
+
 
 
 

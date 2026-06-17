@@ -61,7 +61,7 @@ class StudentCourseDetailActivity : BaseActivity() {
                 }
 
                 override fun onFailure(call: Call<CourseDetailResponse>, t: Throwable) {
-                    Toast.makeText(this@StudentCourseDetailActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@StudentCourseDetailActivity, getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show()
                 }
             })
     }

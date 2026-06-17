@@ -26,6 +26,7 @@ class InstructorHistoryActivity : BaseActivity() {
         val sectionId  = intent.getStringExtra("section_id")
         val courseCode = intent.getStringExtra("course_code") ?: ""
         val courseName = intent.getStringExtra("course_name") ?: ""
+        val sessionId  = intent.getStringExtra("session_id")
 
         findViewById<ImageView>(R.id.backButton).setOnClickListener { finish() }
 
@@ -34,15 +35,16 @@ class InstructorHistoryActivity : BaseActivity() {
         }
 
         if (sectionId == null) {
-            Toast.makeText(this, "Missing section ID", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.toast_missing_section), Toast.LENGTH_SHORT).show()
             return
         }
 
-        loadHistory(sectionId)
+        loadHistory(sectionId, sessionId)
     }
 
-    private fun loadHistory(sectionId: String) {
-        RetrofitClient.instance.getInstructorHistory(sectionId)
+    private fun loadHistory(sectionId: String, sessionId: String?) {
+        Log.d("DEBUG", "loadHistory called — sectionId: $sectionId, sessionId: $sessionId")
+        RetrofitClient.instance.getInstructorHistory(sectionId, sessionId?: "")
             .enqueue(object : Callback<ResponseBody> {
 
                 override fun onResponse(
@@ -50,7 +52,7 @@ class InstructorHistoryActivity : BaseActivity() {
                     response: Response<ResponseBody>
                 ) {
                     val raw = response.body()?.string() ?: run {
-                        Toast.makeText(this@InstructorHistoryActivity, "Server error", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@InstructorHistoryActivity, getString(R.string.toast_server_error), Toast.LENGTH_SHORT).show()
                         return
                     }
 
@@ -147,14 +149,14 @@ class InstructorHistoryActivity : BaseActivity() {
                         Log.e("INSTR_HISTORY", "Parse error: ${e.message}")
                         Toast.makeText(
                             this@InstructorHistoryActivity,
-                            "Invalid server response",
+                            getString(R.string.toast_invalid_server_response),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Toast.makeText(this@InstructorHistoryActivity, "Network error", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@InstructorHistoryActivity, getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show()
                 }
             })
     }

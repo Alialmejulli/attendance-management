@@ -29,7 +29,7 @@ class MyClassesDetailActivity : BaseActivity() {
 
         // Attendance History
         findViewById<Button>(R.id.attendanceHistoryBtn).setOnClickListener {
-            val intent = Intent(this, InstructorHistoryActivity::class.java)
+            val intent = Intent(this, InstructorSessionsActivity::class.java)
             intent.putExtra("section_id", sectionId)
             startActivity(intent)
         }

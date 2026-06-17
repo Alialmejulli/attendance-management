@@ -148,7 +148,7 @@ class StudentHomeActivity : BaseActivity() {
                 override fun onFailure(call: Call<CoursesResponse>, t: Throwable) {
                     Toast.makeText(
                         this@StudentHomeActivity,
-                        "Failed to load courses",
+                        getString(R.string.toast_failed_courses),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
